@@ -1,3 +1,50 @@
+@import "@fortawesome/fontawesome-free/css/all.css";
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+* {
+    box-sizing: border-box;
+}
+
+table th {
+    padding: .25em;
+}
+
+table td {
+    padding: .75em .25em;
+    border: 1px solid gray;
+}
+
+:where(td, th):first-of-type {
+    border-left: none;
+}
+
+:where(td, th):last-of-type {
+    border-right: none;
+}
+
+:where(tr):last-of-type td {
+    border-bottom: none;
+}
+
+tr td:first-of-type {
+    /* box-shadow:inset 0px 0px 0px 2px white; */
+}
+
+/* :where(td, th):where(:first-of-type) input:not(:checked, :focus) {
+    opacity: 0;
+}
+
+:where(td, th):where(:last-of-type) button:not(:focus) {
+    opacity: 0;
+}
+
+:where(td, th):first-of-type:hover input {
+    opacity: 1;
+}
+
+:where(td, th):last-of-type:hover button {
+    opacity: 1;
+} */
