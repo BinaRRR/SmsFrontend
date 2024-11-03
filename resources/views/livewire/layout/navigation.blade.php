@@ -11,8 +11,8 @@ new class extends Component {
     public $navigationRoutes = [
         ['dashboard', 'Dashboard'],
         ['smses', 'Smses'],
-        ['recipients', 'Recipients'],
-        ['recipient-groups', 'Recipient groups']
+        ['recipient', 'Recipients'],
+        ['recipient-group', 'Recipient groups']
     ];
 
     public function logout(Logout $logout): void

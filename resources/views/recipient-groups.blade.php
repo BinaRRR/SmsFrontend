@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-            {{ __('Recipients') }}
+            {{ __('Recipient groups') }}
         </h2>
     </x-slot>
 
@@ -11,12 +11,12 @@
                 <div class="p-6 text-gray-900 dark:text-gray-100">
                     {{-- <h1 class="text-xl">{{ __("You're currently browsing list of all recipients in the system") }}</h1> --}}
                     <livewire:binar-table
-                        title="You're currently browsing list of all recipients in the system"
-                        :headers="['ID', 'Full name', 'Phone number']"
-                        :contents="$recipients"
-                        route="recipient"
+                        title="You're currently browsing list of all recipient groups in the system"
+                        :headers="['ID', 'Name', 'Description']"
+                        :contents="$recipientGroups"
+                        route="recipient-group"
                         secondaryButtonIcon="fa-trash-can"
-                        secondaryButtonTitle="Delete recipient"
+                        secondaryButtonTitle="Delete recipient group"
                         secondaryButtonAction=""
                     />
                 </div>
