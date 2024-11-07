@@ -48,11 +48,24 @@ new class extends Component {
         }
     }
 
-    public function deleteCurrentRows() {{
+    public function deleteSelectedRows() {{
         if (empty($this->selectedRows)) {
             return;
         }
-        dd($this->selectedRows);
+
+        $model = [
+            "iDsToDelete" => $this->selectedRows
+        ];
+
+        $this->rows = array_filter($this->rows, function ($row) {
+            return !in_array($row['id'], $this->selectedRows);
+        });
+
+        $this->selectedRows = [];
+
+        // dd($model);
+
+        Http::post('http://localhost:5202/api/'.$this->route.'/delete-many', $model);
     }}
 };
 ?>
@@ -68,7 +81,8 @@ new class extends Component {
                 <button
                 class="transition-colors bg-red-600 @if (count($selectedRows) <= 0) bg-transparent @endif p-3 grid place-items-center"
                 @if (count($selectedRows) <= 0) disabled @endif
-                wire:click="deleteCurrentRows"
+                wire:confirm="{{ __('Are you sure?') }}"
+                wire:click="deleteSelectedRows"
                 >
                     <i class="text-white fa-solid {{ $secondaryButtonIcon }}"></i>
                 </button>

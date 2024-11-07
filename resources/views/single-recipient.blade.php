@@ -13,7 +13,7 @@
                     </h1>
                     <div class="py-4">
                         <div class="flex flex-col gap-2">
-                            <livewire:recipient-info :properties="$recipient" />
+                            <livewire:binar-object-info :properties="$recipient" route="recipient" />
                             <div class="flex justify-between items-center border-b border-gray-400 my-4 mt-12">
                                 <p class="text-gray-400 uppercase font-mono font-bold" style="font-variant: small-caps">
                                     {{ __('Group memberships') }}</p>
