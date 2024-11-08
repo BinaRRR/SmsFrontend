@@ -8,6 +8,16 @@
     box-sizing: border-box;
 }
 
+.row__new {
+    box-shadow: inset 5px 0 0 0 rgba(0, 239, 18, 1);
+    background-color: rgba(0, 239, 18, 0.15);
+}
+
+.row__selected {
+    box-shadow: inset 5px 0 0 0 rgba(0, 178, 255, 1);
+    background-color: rgba(0, 178, 255, 0.15);
+}
+
 table th {
     padding: .25em;
 }

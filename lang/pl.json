@@ -1,5 +1,15 @@
 {
     "You're currently browsing list of all recipients in the system": "Obecnie przeglądasz listę wszystkich odbiorców w systemie",
     "Choosen items": "Wybrane",
-    "Are you sure you want to exit this group?": "Czy jesteś pewien, że chcesz wyjść z tej grupy?"
+    "Are you sure you want to exit this group?": "Czy jesteś pewien, że chcesz wyjść z tej grupy?",
+
+    "id": "ID",
+    "name": "Nazwa",
+    "fullName": "Imię i nazwisko",
+    "phoneNumber": "Numer telefonu",
+    "description" : "Opis",
+
+    "recipient": "Odbiorca",
+    "recipient-group": "Grupa odbiorcza",
+    "sms": "SMS"
 }

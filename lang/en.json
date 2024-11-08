@@ -1,0 +1,11 @@
+{
+    "id": "ID",
+    "name": "Name",
+    "fullName": "Full name",
+    "phoneNumber": "Phone number",
+    "description" : "Description",
+
+    "recipient": "Recipient",
+    "recipient-group": "Recipient group",
+    "sms": "SMS"
+}

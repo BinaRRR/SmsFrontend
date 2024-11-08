@@ -6,6 +6,7 @@ use DateTime;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use Illuminate\View\View;
+use RealRashid\SweetAlert\Facades\Alert;
 
 class RecipientController extends Controller
 {
@@ -13,7 +14,7 @@ class RecipientController extends Controller
     {
         $json = Http::get("http://localhost:5202/api/recipient")->json();
         // dd($json);
-        return view('recipients', ["recipients" => $json]);
+        return view('recipients.recipients', ["recipients" => $json]);
     }
 
     public function specific($recipientId) : View
@@ -33,6 +34,6 @@ class RecipientController extends Controller
         // dd(array_values($json['recipientMemberships']));
 
         // dd($json);
-        return view('single-recipient', ["recipient" => $json, "tableHeaders" => $tableHeaders, "tableContents" => $tableContents]);
+        return view('recipients.single-recipient', ["recipient" => $json, "tableHeaders" => $tableHeaders, "tableContents" => $tableContents]);
     }
 }

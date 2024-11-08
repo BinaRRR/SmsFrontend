@@ -15,7 +15,7 @@ class RecipientGroupController extends Controller
     {
         $json = Http::get("http://localhost:5202/api/recipient-group")->json();
         // dd($json);
-        return view('recipient-groups', ["recipientGroups" => $json]);
+        return view('recipient-groups.recipient-groups', ["recipientGroups" => $json]);
     }
 
     public function specific($recipientGroupId) : View
@@ -35,6 +35,6 @@ class RecipientGroupController extends Controller
         // dd(array_values($json['recipientMemberships']));
 
         // dd($json);
-        return view('single-recipient-group', ["recipientGroup" => $json, "tableHeaders" => $tableHeaders, "tableContents" => $tableContents]);
+        return view('recipient-groups.single-recipient-group', ["recipientGroup" => $json, "tableHeaders" => $tableHeaders, "tableContents" => $tableContents]);
     }
 }

@@ -60,7 +60,7 @@ new class extends Component {
                 {{-- {{var_dump(key($property[0]))}} --}}
                 <div class="py-2 px-4 gap-4 flex flex-row justify-between items-center" wire:key=$key>
                     <div>
-                        <p class="text-lg font-bold">{{ $key }}:</p>
+                        <p class="text-lg font-bold">{{ __($key) }}:</p>
                     </div>
                     <div class="flex gap-2 items-center">
                         @if ($editMode[$key] ?? true)
