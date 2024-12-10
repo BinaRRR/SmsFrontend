@@ -93,13 +93,6 @@ new class extends Component {
     
             $this->js('window.location.reload()');
         }
-
-        //TODO: MAKE IT DO MORE THINGS THAN JUST DELETE
-        // dd(Http::post('http://localhost:5202/api/'.$this->route.$this->secondaryButtonAction.'/'.$id));
-        // dd($this->rows);
-        // dd(array($this->searchForId($id, $this->rows)));
-        // dd(array_diff($this->rows, array($this->searchForId($id, $this->rows))));
-
     }
 
     function searchForId($id, $array)
@@ -142,7 +135,7 @@ new class extends Component {
 
         // dd($model);
 
-        dd(Http::post('http://localhost:5202/api/' . $this->route . '/delete-many', $model), 'http://localhost:5202/api/' . $this->route . '/delete-many', $model);
+        Http::post('http://localhost:5202/api/' . $this->route . '/delete-many', $model);
     }
 };
 ?>

@@ -21,6 +21,10 @@ Route::get('sms', [SmsController::class, 'index'])
     ->middleware(['auth'])
     ->name('sms');
 
+Route::get('sms/{id}', [SmsController::class, 'specific'])
+    ->middleware(['auth'])
+    ->name('sms-specific');
+
 Route::get('recipient', [RecipientController::class, 'index'])
     ->middleware(['auth'])
     ->name('recipient');
