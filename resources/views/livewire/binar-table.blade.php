@@ -3,24 +3,37 @@
 use Illuminate\Support\Facades\Http;
 use Livewire\Volt\Component;
 use Livewire\Attributes\On;
+use PhpParser\Node\Expr\Empty_;
 
 new class extends Component {
     public $title;
     public $headers;
     public $route;
     public $contents;
+    public $parentEntityId;
     public $secondaryButtonIcon;
     public $secondaryButtonAction;
     public $secondaryButtonTitle;
+    public $secondaryButtonColor = "text-red-600";
+    public $secondaryButtonRoute;
     public $massDeleteOption = false;
+    public $excludeContents = [];
+    public $swapParentEntityId = false;
+
+    public $newRowListenerActive = true;
 
     public $rows = [];
     public $selectedRows = [];
 
     public function mount()
     {
+        $excludeRows = [];
+    //    dd($this->excludeContents);
+    //    dd(count($this->excludeContents) > 0);
+
         foreach ($this->contents as $row) {
             $tableRow = [];
+
             foreach ($row as $key => $field) {
                 if (!is_array($field)) {
                     $tableRow[$key] = $field;
@@ -28,11 +41,24 @@ new class extends Component {
             }
             $this->rows[] = $tableRow;
         }
+        if (count($this->excludeContents) > 0) {
+            // dd($this->excludeContents);
+            $this->rows = array_udiff($this->rows, $this->excludeContents,
+                function ($obj_a, $obj_b) {
+                    return $obj_a['id'] <=> $obj_b['id'];
+                }
+            );
+        }
+
+
     }
 
     #[On('new-row')]
     public function newRow($data)
     {
+        if (!$this->newRowListenerActive)
+            return;
+
         $tableRow = [];
         foreach ($data as $key => $field) {
             $tableRow[$key] = $field;
@@ -42,14 +68,37 @@ new class extends Component {
 
     public function secondaryButtonActionFunction($id)
     {
+        if ($this->secondaryButtonAction == "") {
+            Http::delete('http://localhost:5202/api/' . $this->route . '/' . $id);
+            unset($this->rows[$this->searchForId($id, $this->rows)]);
+            return;
+        }
+
+        if ($this->parentEntityId != null) {
+            // dd($this->secondaryButtonRoute);
+            $routeToUse = "";
+            if ($this->secondaryButtonRoute != null) {
+                $routeToUse = $this->secondaryButtonRoute;
+            } else {
+                $routeToUse = $this->route;
+            }
+            $secondId = null;
+            if ($this->swapParentEntityId) {
+                $secondId = $id;
+                $id = $this->parentEntityId;
+            } else {
+                $secondId = $this->parentEntityId;
+            }
+            Http::post('http://localhost:5202/api/'.$routeToUse.'/'.$secondId.$this->secondaryButtonAction.'/'.$id);
+    
+            $this->js('window.location.reload()');
+        }
 
         //TODO: MAKE IT DO MORE THINGS THAN JUST DELETE
         // dd(Http::post('http://localhost:5202/api/'.$this->route.$this->secondaryButtonAction.'/'.$id));
-        Http::delete('http://localhost:5202/api/' . $this->route . '/' . $id);
         // dd($this->rows);
         // dd(array($this->searchForId($id, $this->rows)));
         // dd(array_diff($this->rows, array($this->searchForId($id, $this->rows))));
-        unset($this->rows[$this->searchForId($id, $this->rows)]);
 
     }
 
@@ -93,7 +142,7 @@ new class extends Component {
 
         // dd($model);
 
-        Http::post('http://localhost:5202/api/' . $this->route . '/delete-many', $model);
+        dd(Http::post('http://localhost:5202/api/' . $this->route . '/delete-many', $model), 'http://localhost:5202/api/' . $this->route . '/delete-many', $model);
     }
 };
 ?>
@@ -146,7 +195,7 @@ new class extends Component {
                         <button type="button" class="w-full" title="{{ $secondaryButtonTitle }}"
                                 wire:click="secondaryButtonActionFunction({{ $row['id'] }})"
                                 wire:confirm="{{ __('Are you sure?') }}">
-                            <i class="text-red-600 fa-solid {{ $secondaryButtonIcon }}"></i>
+                            <i class="{{$secondaryButtonColor}} fa-solid {{ $secondaryButtonIcon }}"></i>
                         </button>
                     </td>
                 </tr>

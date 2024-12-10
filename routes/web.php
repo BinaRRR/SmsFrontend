@@ -3,6 +3,7 @@
 use App\Http\Controllers\LocalizationController;
 use App\Http\Controllers\RecipientController;
 use App\Http\Controllers\RecipientGroupController;
+use App\Http\Controllers\SmsController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\App;
 
@@ -16,9 +17,9 @@ Route::view('profile', 'profile')
     ->middleware(['auth'])
     ->name('profile');
 
-Route::view('sms', 'smses')
+Route::get('sms', [SmsController::class, 'index'])
     ->middleware(['auth'])
-    ->name('smses');
+    ->name('sms');
 
 Route::get('recipient', [RecipientController::class, 'index'])
     ->middleware(['auth'])

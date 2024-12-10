@@ -9,17 +9,19 @@ new class extends Component {
 
     public $route;
     public $fields;
+    public $types;
     public $properties = [];
 
     public function mount()
     {
+        // dd($this->fields);
         $this->resetProperties();
     }
 
     function resetProperties(): void
     {
         foreach ($this->fields as $field) {
-            $this->properties[$field] = "";
+            $this->properties[$field[0]] = "";
         }
     }
 
@@ -28,6 +30,7 @@ new class extends Component {
         $model = array_map(function ($value) {
             return $value;
         }, $this->properties);
+        
 
         $response = Http::post('http://localhost:5202/api/' . $this->route, $model);
         if (!$response->created()) {
@@ -59,13 +62,17 @@ new class extends Component {
 ?>
 
 <div>
-    @foreach ($this->properties as $key => $property)
-        <div class="py-2 px-4 gap-4 flex flex-row justify-between items-center" wire:key=$key>
+    @foreach ($this->fields as $name => $values)
+        <div class="py-2 px-4 gap-4 flex flex-row justify-between items-center" wire:key=$values[0]>
             <div>
-                <p class="text-lg font-bold">{{ __($key) }}:</p>
+                <p class="text-lg font-bold">{{ __($name) }}:</p>
             </div>
             <div class="flex gap-2 items-center">
-                <input type="text" wire:model="properties.{{ $key }}" class="bg-transparent"/>
+                @if ($values[1] == 'textarea')
+                    <textarea maxlength="160" required wire:model="properties.{{ $values[0] }}" class="bg-transparent" cols="30" rows="3"></textarea>
+                @else
+                    <input maxlength="160" required type={{  $values[1] }} wire:model="properties.{{ $values[0] }}" class="bg-transparent"/>
+                @endif
             </div>
         </div>
     @endforeach

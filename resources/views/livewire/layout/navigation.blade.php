@@ -10,7 +10,7 @@ new class extends Component {
 
     public $navigationRoutes = [
         ['dashboard', 'Dashboard'],
-        ['smses', 'Smses'],
+        ['sms', 'SMSes'],
         ['recipient', 'Recipients'],
         ['recipient-group', 'Recipient groups']
     ];

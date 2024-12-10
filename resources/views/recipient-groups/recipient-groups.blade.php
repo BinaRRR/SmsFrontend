@@ -30,7 +30,10 @@
                             {{ __('Creation form') }}</p>
                     </div>
                     <div>
-                        <livewire:binar-creation-form route="recipient-group" :fields="['name', 'description']" />
+                        <livewire:binar-creation-form route="recipient-group" :fields="[
+                                'Name' => ['name', 'text'],
+                                'Description' => ['description', 'text']
+                            ]" />
                     </div>
                 </div>
             </div>

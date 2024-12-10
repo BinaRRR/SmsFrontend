@@ -3,7 +3,7 @@
         <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
             {{ __('Recipient groups | Edit mode') }}
         </h2>
-        <a href="{{ url()->previous() }}"">[GO BACK]</a>
+        <a href="{{ url()->previous() }}">[GO BACK]</a>
     </x-slot>
 
     <div class="py-12">
@@ -17,9 +17,27 @@
                         <div>
                             <livewire:binar-object-info :properties="$recipientGroup" route="recipient-group" />
                         </div>
+                        <div class="flex justify-between items-center border-b border-gray-400 my-4 mt-12">
+                            <p class="text-gray-400 uppercase font-mono font-bold py-2"
+                               style="font-variant: small-caps">
+                                {{ __('Recipients in this group') }}</p>
+                        </div>
                         <livewire:binar-table title="" :headers="$tableHeaders" :contents="$tableContents" route="recipient"
-                            secondaryButtonIcon="fa-xmark" secondaryButtonAction="/add-to-group"
-                            secondaryButtonTitle="Exit group" />
+                            secondaryButtonIcon="fa-xmark" secondaryButtonAction="/remove-recipient"
+                            secondaryButtonTitle="Exit group" :parentEntityId="$recipientGroup['id']"
+                            secondaryButtonRoute="recipient-group"
+                        />
+                        <div class="flex justify-between items-center border-b border-gray-400 my-4 mt-12">
+                            <p class="text-gray-400 uppercase font-mono font-bold py-2"
+                               style="font-variant: small-caps">
+                                {{ __('Recipients you can add') }}</p>
+                        </div>
+                        <livewire:binar-table title="" :headers="$secondTableHeaders" :contents="$allRecipients" route="recipient"
+                                              secondaryButtonIcon="fa-plus" secondaryButtonAction="/add-recipient"
+                                              secondaryButtonTitle="Add to group" secondaryButtonColor="text-green-500"
+                                              :excludeContents="$tableContents" :parentEntityId="$recipientGroup['id']"
+                                              secondaryButtonRoute="recipient-group"
+                        />
                         <div class="flex justify-between items-center border-b border-gray-400 my-4 mt-12">
                             <p class="text-gray-400 uppercase font-mono font-bold py-2"
                                 style="font-variant: small-caps">

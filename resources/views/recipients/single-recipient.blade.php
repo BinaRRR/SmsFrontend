@@ -16,7 +16,7 @@
                         <div>
                             <livewire:binar-object-info :properties="$recipient" route="recipient" />
                         </div>
-                        <div class="flex justify-between items-center border-b border-gray-400 my-4 mt-12">
+                        {{-- <div class="flex justify-between items-center border-b border-gray-400 my-4 mt-12">
                             <p class="text-gray-400 uppercase font-mono font-bold" style="font-variant: small-caps">
                                 {{ __('Group memberships') }}</p>
                             <button class="hover:bg-green-600 transition-colors text-white grid place-items-center">
@@ -24,15 +24,27 @@
                                     Save &nbsp; <i class="fa-solid fa-floppy-disk"></i>
                                 </p>
                             </button>
+                        </div> --}}
+                        <div class="flex justify-between items-center border-b border-gray-400 my-4 mt-12">
+                            <p class="text-gray-400 uppercase font-mono font-bold py-2"
+                               style="font-variant: small-caps">
+                                {{ __('Groups with this recipient present') }}</p>
                         </div>
-                        <livewire:binar-table
-                            title=""
-                            :headers="$tableHeaders"
-                            :contents="$tableContents"
-                            route="recipient-group"
-                            secondaryButtonIcon="fa-right-from-bracket"
-                            secondaryButtonAction="/add-to-group"
-                            secondaryButtonTitle="Exit group"
+                        <livewire:binar-table title="" :headers="$tableHeaders" :contents="$tableContents" route="recipient-group"
+                            secondaryButtonIcon="fa-xmark" secondaryButtonAction="/remove-recipient"
+                            secondaryButtonTitle="Exit group" :parentEntityId="$recipient['id']"
+                            :swapParentEntityId="true"
+                        />
+                        <div class="flex justify-between items-center border-b border-gray-400 my-4 mt-12">
+                            <p class="text-gray-400 uppercase font-mono font-bold py-2"
+                               style="font-variant: small-caps">
+                                {{ __('Groups recipient can join') }}</p>
+                        </div>
+                        <livewire:binar-table title="" :headers="$secondTableHeaders" :contents="$allRecipientGroups" route="recipient-group"
+                                              secondaryButtonIcon="fa-plus" secondaryButtonAction="/add-recipient"
+                                              secondaryButtonTitle="Add to group" secondaryButtonColor="text-green-500"
+                                              :excludeContents="$tableContents" :parentEntityId="$recipient['id']"
+                                            :swapParentEntityId="true"
                         />
                         <div class="flex justify-between items-center border-b border-gray-400 my-4 mt-12">
                             <p class="text-gray-400 uppercase font-mono font-bold py-2" style="font-variant: small-caps">
