@@ -4,6 +4,10 @@
     "fullName": "Full name",
     "phoneNumber": "Phone number",
     "description" : "Description",
+    "message": "Message",
+    "plannedSending": "Planned sending",
+    "actuallySent": "Actually sent at",
+    "archiveTime": "Archived at",
 
     "recipient": "Recipient",
     "recipient-group": "Recipient group",

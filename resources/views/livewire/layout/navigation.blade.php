@@ -8,6 +8,12 @@ new class extends Component {
      * Log the current user out of the application.
      */
 
+    public $currentLang;
+
+    public function mount() {
+        $this->currentLang = app()->getLocale();
+    }
+
     public $navigationRoutes = [
         ['dashboard', 'Dashboard'],
         ['sms', 'SMSes'],
@@ -43,6 +49,19 @@ new class extends Component {
                         </x-nav-link>
                     </div>
                 @endforeach
+                @if ($currentLang == "en")
+                    <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                        <x-nav-link href="/change-lang/pl" wire:navigate>
+                            [ --- {{ __('CHANGE LANG')}} --- ]
+                        </x-nav-link>
+                    </div>
+                @else
+                    <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                        <x-nav-link href="/change-lang/en" wire:navigate>
+                            [ --- {{ __('CHANGE LANG')}} --- ]
+                        </x-nav-link>
+                    </div>
+                @endif
             </div>
 
             <!-- Settings Dropdown -->

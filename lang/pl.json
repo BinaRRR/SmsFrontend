@@ -8,6 +8,10 @@
     "fullName": "Imię i nazwisko",
     "phoneNumber": "Numer telefonu",
     "description" : "Opis",
+    "message": "Wiadomość",
+    "plannedSending": "Planowana wysyłka",
+    "actuallySent": "Wysłano o",
+    "archiveTime": "Zarchiwizowano o",
 
     "recipient": "Odbiorca",
     "recipient-group": "Grupa odbiorcza",
