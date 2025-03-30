@@ -4,6 +4,7 @@ namespace App\Livewire\Forms;
 
 use Illuminate\Auth\Events\Lockout;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
@@ -39,6 +40,31 @@ class LoginForm extends Form
         }
 
         RateLimiter::clear($this->throttleKey());
+
+        if (!$this->apiLogin()) {
+            Auth::logout();
+            throw ValidationException::withMessages([
+                'form' => trans('auth.api_error'),
+            ]);
+        }
+        
+    }
+
+    private function apiLogin() {
+        
+        $response = Http::post(env('API_URL') + "/auth/login", [
+            'EmailAddress' => $this->email,
+            'Password' => $this->password
+        ]);
+
+        if ($response->successful()) {
+            $token = $response->body();
+
+            session(['jwt_token' => $token]);
+
+            return true;
+        }
+        return false;
     }
 
     /**
