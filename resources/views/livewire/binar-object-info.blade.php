@@ -1,6 +1,7 @@
 <?php
 
 use Livewire\Volt\Component;
+use App\Services\ApiClient;
 
 new class extends Component {
     public $properties;
@@ -32,7 +33,8 @@ new class extends Component {
         }
         // dd($json);
         // dd('http://localhost:5202/api/recipient/'.$this->properties["id"]);
-        $response = Http::put('http://localhost:5202/api/'.$this->route.'/'.$this->properties["id"], $model);
+        $response = ApiClient::request('put', '/'.$this->route.'/'.$this->properties["id"], $model);
+        // $response = Htp::put('http://localhost:5202/api/'.$this->route.'/'.$this->properties["id"], $model);
         if ($response->ok()) {
             session()->flash('message', 'Recipient update successfully!');
         }

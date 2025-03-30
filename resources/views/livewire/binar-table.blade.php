@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Http;
 use Livewire\Volt\Component;
 use Livewire\Attributes\On;
 use PhpParser\Node\Expr\Empty_;
+use App\Services\ApiClient;
 
 new class extends Component {
     public $title;
@@ -69,7 +70,8 @@ new class extends Component {
     public function secondaryButtonActionFunction($id)
     {
         if ($this->secondaryButtonAction == "") {
-            Http::delete('http://localhost:5202/api/' . $this->route . '/' . $id);
+            ApiClient::request('delete', '/'.$this->route.'/'.'/'.$id)->json();
+            // Htp::delete('http://localhost:5202/api/' . $this->route . '/' . $id);
             unset($this->rows[$this->searchForId($id, $this->rows)]);
             return;
         }
@@ -89,7 +91,8 @@ new class extends Component {
             } else {
                 $secondId = $this->parentEntityId;
             }
-            Http::post('http://localhost:5202/api/'.$routeToUse.'/'.$secondId.$this->secondaryButtonAction.'/'.$id);
+            // Htp::post('http://localhost:5202/api/'.$routeToUse.'/'.$secondId.$this->secondaryButtonAction.'/'.$id);
+            ApiClient::request('post', '/'.$routeToUse.'/'.$secondId.$this->secondaryButtonAction.'/'.$id);
     
             $this->js('window.location.reload()');
         }
@@ -135,7 +138,8 @@ new class extends Component {
 
         // dd($model);
 
-        Http::post('http://localhost:5202/api/' . $this->route . '/delete-many', $model);
+        // Htp::post('http://localhost:5202/api/' . $this->route . '/delete-many', $model);
+        ApiClient::request('post', '/'.$this->route.'/delete-many',$model)->json();
     }
 };
 ?>

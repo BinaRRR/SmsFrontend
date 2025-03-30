@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Services\ApiClient;
 use DateTime;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
@@ -11,7 +12,6 @@ class SmsController extends Controller
 {
     function humanifySmsContents($smses) {
         $tableContents = [];
-        // dd($smses);
         foreach ($smses as $sms) {
             $tableContents[] = $this->processSingleSms($sms);
         }
@@ -43,10 +43,10 @@ class SmsController extends Controller
     public function index(Request $request): View
     {
         if ($request->has('archived')) {
-            $json = Http::get("http://localhost:5202/api/sms?showArchived=true")->json();
+            $json = ApiClient::request('get', '/sms')->json();
         }
         else {
-            $json = Http::get("http://localhost:5202/api/sms")->json();
+            $json = ApiClient::request('get', '/sms')->json();
         }
 
         $tableHeaders = ['ID', 'Message', 'Planned sending', 'Actually sent', 'Status'];
@@ -60,11 +60,11 @@ class SmsController extends Controller
 
     public function specific($smsId) : View
     {
-        $json = Http::get("http://localhost:5202/api/sms/$smsId")->json();
+        $json = ApiClient::request('get', "/sms/$smsId")->json();
 
         $tableHeaders = ['ID', 'Name', 'Description'];
         $tableContents = $json['recipientGroups'];
-        $allRecipientGroupsJson = Http::get("http://localhost:5202/api/recipient-group/")->json();
+        $allRecipientGroupsJson = ApiClient::request('get', '/recipient-group')->json();
         return view('smses.single-sms', [
             "sms" => $json,
             "tableHeaders" => $tableHeaders,

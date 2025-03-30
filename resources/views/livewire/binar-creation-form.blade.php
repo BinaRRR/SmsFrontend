@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Http;
 use Livewire\Volt\Component;
 use Usernotnull\Toast\Concerns\WireToast;
+use App\Services\ApiClient;
 
 new class extends Component {
     use WireToast;
@@ -32,7 +33,7 @@ new class extends Component {
         }, $this->properties);
         
 
-        $response = Http::post('http://localhost:5202/api/' . $this->route, $model);
+        $response = ApiClient::request('get', "/".$this->route, $model)->json();
         if (!$response->created()) {
            toast()
                ->danger('Error while creating', "Cannot create the asset. Try again later")

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Services\ApiClient;
 use DateTime;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
@@ -13,14 +14,14 @@ class RecipientGroupController extends Controller
 {
     public function index() : View
     {
-        $json = Http::get("http://localhost:5202/api/recipient-group")->json();
+        $json = ApiClient::request('get', '/recipient-group')->json();
         // dd($json);
         return view('recipient-groups.recipient-groups', ["recipientGroups" => $json]);
     }
 
     public function specific($recipientGroupId) : View
     {
-        $json = Http::get("http://localhost:5202/api/recipient-group/$recipientGroupId")->json();
+        $json = ApiClient::request('get', "/recipient-group/$recipientGroupId")->json();
 
         $tableHeaders = ['ID', 'Name', 'Phone number', 'Enrollment Date'];
         // dd($json['recipientMemberships']);
@@ -33,7 +34,7 @@ class RecipientGroupController extends Controller
             $tableContents[] = $row;
         }
         // dd(array_values($json['recipientMemberships']));
-        $allRecipientsJson = Http::get("http://localhost:5202/api/recipient")->json();
+        $allRecipientsJson = ApiClient::request('get', '/recipient')->json();
 
         // dd($json);
         return view('recipient-groups.single-recipient-group', [

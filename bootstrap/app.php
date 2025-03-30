@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Middleware\AttachJwtToken;
 use App\Http\Middleware\LocalizationMiddleware;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
@@ -13,6 +14,7 @@ return Application::configure(basePath: dirname(__DIR__))
     )
     ->withMiddleware(function (Middleware $middleware) {
         $middleware->appendToGroup("web", LocalizationMiddleware::class);
+        $middleware->append(AttachJwtToken::class);
     })
     ->withExceptions(function (Exceptions $exceptions) {
         //

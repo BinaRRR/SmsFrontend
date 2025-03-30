@@ -52,15 +52,18 @@ class LoginForm extends Form
 
     private function apiLogin() {
         
-        $response = Http::post(env('API_URL') + "/auth/login", [
+        $response = Http::post(env('API_URL')."/auth/login", [
             'EmailAddress' => $this->email,
             'Password' => $this->password
         ]);
 
         if ($response->successful()) {
-            $token = $response->body();
+            $data = $response->json();
+            // dd($data);
 
-            session(['jwt_token' => $token]);
+            session(['jwt_token' => $data['token']]);
+
+            cookie()->queue(cookie('refresh_token', $data['refreshToken'], 60 * 24 * 30, null, null, true, true)); // 30 dni, Secure, HttpOnly
 
             return true;
         }

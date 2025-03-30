@@ -5,11 +5,18 @@ namespace App\Http\Middleware;
 use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Http;
 use Symfony\Component\HttpFoundation\Response;
 
 class AttachJwtToken
 {
-    private $apiBaseUrl = env('API_URL');
+    private string $apiBaseUrl;
+
+    public function __construct()
+    {
+        $this->apiBaseUrl = env("API_URL", "http://localhost:5202/api");
+    }
+
     /**
      * Handle an incoming request.
      *
@@ -17,34 +24,18 @@ class AttachJwtToken
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (!$this->isAspNetApiRequest($request)) {
-            return $next($request);
-        }
-
-        $token = session('jwt_token');
-        if ($token) {
-            $request->headers->set('Authorization', 'Bearer ' . $token);
-        }
-
-        $response = $next($request);
-        if ($response->getStatusCode() === 401 && Auth::check()) {
-            if ($this->refreshToken()) {
-                $request->headers->set('Authorization', 'Bearer ' . session('jwt_token'));
-                return $next($request);
-            } else {
-                Auth::logout();
-                session()->forget('jwt_token');
-                return redirect('/login')->withErrors(['error' => 'Sesja wygasła. Zaloguj się ponownie.']);
+        if ($this->isAspNetApiRequest($request)) {
+            dd(str_starts_with($request->url(), $this->apiBaseUrl));
+            $token = session('jwt_token');
+            if ($token) {
+                $request->headers->set('Authorization', 'Bearer ' . $token);
             }
         }
+
+        return $next($request);
     }
 
     private function isAspNetApiRequest(Request $request) {
-        return $request->isJson() && str_starts_with($request->url(), $this->apiBaseUrl);
-    }
-
-    private function refreshToken() {
-        $user = Auth::user();
-        
+        return str_starts_with($request->url(), $this->apiBaseUrl);
     }
 }
