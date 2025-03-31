@@ -40,6 +40,7 @@ new class extends Component {
                     $tableRow[$key] = $field;
                 }
             }
+
             $this->rows[] = $tableRow;
         }
         if (count($this->excludeContents) > 0) {
@@ -50,6 +51,7 @@ new class extends Component {
                 }
             );
         }
+        // dd($this->rows);
 
 
     }
@@ -178,10 +180,12 @@ new class extends Component {
                                class="bg-transparent outline-none border-white pointer-events-none"
                                @if (in_array($row['id'], $selectedRows)) checked @endif />
                     </td>
+                    
                     @foreach ($row as $key => $field)
-                        @if ($key !== 'additionalClasses')
+                        @if ($key !== 'additionalClasses' && $key !== 'id')
                             <td>{{ $field }}</td>
                         @endif
+                        
                     @endforeach
                     <td>
                         <a href="{{ url($route, ['id' => $row['id']]) }}" class="w-full">
@@ -195,6 +199,7 @@ new class extends Component {
                             <i class="{{$secondaryButtonColor}} fa-solid {{ $secondaryButtonIcon }}"></i>
                         </button>
                     </td>
+                    <!-- <td class="w-1 px-2"><span class="px-2 py-1 text-xs font-semibold text-gray-900 bg-gray-300 rounded-lg">Automatic</span></td> -->
                 </tr>
             @endforeach
 

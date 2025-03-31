@@ -16,7 +16,7 @@
                     </div>
                     <livewire:binar-table
                         title="You're currently browsing list of all recipients in the system"
-                        :headers="['ID', 'Full name', 'Phone number']"
+                        :headers="['Full name', 'Phone number']"
                         :contents="$recipients"
                         route="recipient"
                         secondaryButtonIcon="fa-trash-can"

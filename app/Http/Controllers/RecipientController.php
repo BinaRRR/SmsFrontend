@@ -21,7 +21,7 @@ class RecipientController extends Controller
     {
         $json = ApiClient::request('recipient', "/sms/$recipientId")->json();
 
-        $tableHeaders = ['ID', 'Name', 'Description', 'Enrollment Date'];
+        $tableHeaders = ['Name', 'Description', 'Enrollment Date'];
         $tableContents = [];
         foreach ($json['recipientMemberships'] as $membership) {
             $row = $membership['recipientGroup'];

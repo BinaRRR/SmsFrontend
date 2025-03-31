@@ -23,7 +23,7 @@ class RecipientGroupController extends Controller
     {
         $json = ApiClient::request('get', "/recipient-group/$recipientGroupId")->json();
 
-        $tableHeaders = ['ID', 'Name', 'Phone number', 'Enrollment Date'];
+        $tableHeaders = ['Name', 'Phone number', 'Enrollment Date'];
         // dd($json['recipientMemberships']);
         $tableContents = [];
         foreach ($json['recipientMemberships'] as $membership) {

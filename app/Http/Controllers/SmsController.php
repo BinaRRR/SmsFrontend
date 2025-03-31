@@ -49,7 +49,7 @@ class SmsController extends Controller
             $json = ApiClient::request('get', '/sms')->json();
         }
 
-        $tableHeaders = ['ID', 'Message', 'Planned sending', 'Actually sent', 'Status'];
+        $tableHeaders = ['Message', 'Planned sending', 'Actually sent', 'Status'];
         $tableContents = $this->humanifySmsContents($json);
         
         return view('smses.smses', [
@@ -62,7 +62,7 @@ class SmsController extends Controller
     {
         $json = ApiClient::request('get', "/sms/$smsId")->json();
 
-        $tableHeaders = ['ID', 'Name', 'Description'];
+        $tableHeaders = ['Name', 'Description'];
         $tableContents = $json['recipientGroups'];
         $allRecipientGroupsJson = ApiClient::request('get', '/recipient-group')->json();
         return view('smses.single-sms', [
