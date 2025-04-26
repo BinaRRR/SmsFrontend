@@ -2,11 +2,14 @@
 
 namespace App\Console\Commands;
 use App\Models\User;
+use App\Services\ApiClient;
 use Exception;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Password;
+use Livewire\Attributes\Validate;
 
 class CreateUserCommand extends Command
 {
@@ -61,6 +64,8 @@ class CreateUserCommand extends Command
             $user->email = $email;
             $user->name = $name;
             $user->company_id = $companyID;
+            $user->role = null;
+            $user->refreshtoken = null;
             $user->save();
         }
         catch (\Exception $e) {
@@ -71,8 +76,33 @@ class CreateUserCommand extends Command
         // Success message
         $this->info('User created successfully!');
         $this->info('New user ID: ' . $user->id);
+
+        //Login to API
+
+        $response = Http::post(env('API_URL')."/auth/login", [
+            'EmailAddress' => env('API_EMAIL'),
+            'Password' => env('API_PASSWORD')
+        ]);
+
+        if (!$response->successful()) {
+            $this->info('Internal error! Unauthorized to API');
+            return;
+        }
+        $data = $response->json();
+        $token = $data['token'];
+        
+        $response = Http::withToken($token)->post(env('API_URL').'/recipient-group/create-default-groups', ['CompanyId' => $companyID]);
+        if (!$response->successful()) {
+            $this->info('Internal error! Unauthorized to API');
+            return;
+        }
+        
+        $this->info('Created default groups!');
+
         if (!$this->option('password')) {
-            $this->info('Auto-generated password ' . $password);
+            $this->info('DEBUG: Auto-generated password: ' . $password);
+            // $this->choice("Choose company", ["1", "2", "3"]);
+
             $this->info('USER WILL GET PASSWORD RESET LINK ON THEIR EMAIL');
             $status = Password::sendResetLink(
                 ['email' => $email]

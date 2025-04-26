@@ -72,7 +72,7 @@ new class extends Component {
     public function secondaryButtonActionFunction($id)
     {
         if ($this->secondaryButtonAction == "") {
-            ApiClient::request('delete', '/'.$this->route.'/'.'/'.$id)->json();
+            ApiClient::request('delete', '/'.$this->route.'/'.$id)->json();
             // Htp::delete('http://localhost:5202/api/' . $this->route . '/' . $id);
             unset($this->rows[$this->searchForId($id, $this->rows)]);
             return;

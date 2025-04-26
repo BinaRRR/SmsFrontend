@@ -16,7 +16,7 @@
                     </div>
                     <livewire:binar-table
                         title="You're currently browsing list of all recipient groups in the system"
-                        :headers="['Name', 'Description', 'Recipients count']"
+                        :headers="['Name', 'Description', 'Recipients count', 'Automatic?']"
                         :contents="$recipientGroups"
                         route="recipient-group"
                         secondaryButtonIcon="fa-trash-can"

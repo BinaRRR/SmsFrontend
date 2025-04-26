@@ -62,7 +62,7 @@ class SmsController extends Controller
     {
         $json = ApiClient::request('get', "/sms/$smsId")->json();
 
-        $tableHeaders = ['Name', 'Description'];
+        $tableHeaders = ['Name', 'Description', 'Recipient count', 'Automatic?'];
         $tableContents = $json['recipientGroups'];
         $allRecipientGroupsJson = ApiClient::request('get', '/recipient-group')->json();
         return view('smses.single-sms', [

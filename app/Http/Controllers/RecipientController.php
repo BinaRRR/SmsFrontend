@@ -19,7 +19,7 @@ class RecipientController extends Controller
 
     public function specific($recipientId) : View
     {
-        $json = ApiClient::request('recipient', "/sms/$recipientId")->json();
+        $json = ApiClient::request('get', "/recipient/$recipientId")->json();
 
         $tableHeaders = ['Name', 'Description', 'Enrollment Date'];
         $tableContents = [];
