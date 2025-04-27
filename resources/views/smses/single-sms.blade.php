@@ -14,7 +14,8 @@
                     </h1>
                     <div class="py-4">
                         <div>
-                            <livewire:binar-object-info :properties="$sms" route="sms" />
+                            {{-- {{dd($sms)}} --}}
+                            <livewire:binar-object-info :properties="$sms" :excludeEditable="['actuallySent', 'archiveTime']" route="sms" />
                         </div>
                         {{-- <div class="flex justify-between items-center border-b border-gray-400 my-4 mt-12">
                             <p class="text-gray-400 uppercase font-mono font-bold" style="font-variant: small-caps">

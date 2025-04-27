@@ -7,9 +7,11 @@ new class extends Component {
     public $properties;
     public $route;
     public $editMode = [];
+    public $excludeEditable = [];
 
     public function mount()
     {
+
         // $this->fetchData();
         // Initialize input visibility for each item
         foreach ($this->properties as $index => $property) {
@@ -70,7 +72,8 @@ new class extends Component {
                         @else
                             <p class="text-lg"> {{ $property }}</p>
                         @endif
-                        @if ($key != 'id')
+                        {{-- {{dd($properties)}} --}}
+                        @if ($key != 'id' && !in_array($key, $excludeEditable))
                             <button
                                 type="button"
                                 class="grid place-items-center aspect-square p-2 rounded-md {{ $editMode[$key] ? 'bg-green-600' : 'bg-blue-500' }}"

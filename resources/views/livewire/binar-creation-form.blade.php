@@ -12,33 +12,40 @@ new class extends Component {
     public $fields;
     public $types;
     public $properties = [];
-    private $ageGroups = [];
+    public $ageGroups = [];
+    public $i = 0;
 
     public function mount()
     {
         // dd($this->fields);
-        $this->resetProperties();
         if ($this->route == 'recipient') {
             $data = ApiClient::request('get', '/age-group')->json();
             foreach ($data as $ageGroup) {
-                // dd($ageGroup);
                 $this->ageGroups[$ageGroup['name']] = $ageGroup['minimumAge'];
             }
         }
+        $this->resetProperties();
     }
 
     function resetProperties(): void
     {
+        $this->i++;
         foreach ($this->fields as $field) {
             $this->properties[$field[0]] = '';
         }
+        if ($this->route == 'recipient') {
+            // dd($this->ageGroups);
+            $this->properties['minAgeGroup'] = reset($this->ageGroups);
+        }
+        
     }
-
+    
     public function sendCreationData()
     {
         $model = array_map(function ($value) {
             return $value;
         }, $this->properties);
+        // dd($this->properties);
 
         $response = ApiClient::request('post', '/' . $this->route, $model);
         // dd($response);
@@ -91,7 +98,7 @@ new class extends Component {
         </div>
         <div class="flex gap-2 items-center">
             {{-- {{ dd($this->ageGroups)}} --}}
-            <select class="bg-transparent">
+            <select class="bg-transparent" wire:model="properties.minAgeGroup">
                 @foreach ($this->ageGroups as $name => $age)
                     <option value="{{ $age }}">{{ $name }}</option>
                 @endforeach
